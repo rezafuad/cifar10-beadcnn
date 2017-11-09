@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Caffe Augmentation Extension
 This is a modified caffe fork (version of 2017/3/10) with ImageData layer data augmentation, which is based on:
 
@@ -78,3 +79,8 @@ while in testing phase:
       batch_size: 32
     }
     }
+=======
+# Is Negative Features Important?
+
+This repository store the CNN model that explore either positive or negative respond of the convolution layer.
+>>>>>>> 2281bb04797f0c30bd6d856cd28e2980e8bb5a5d

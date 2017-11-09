@@ -725,6 +725,7 @@ message EltwiseParameter {
     PROD = 0;
     SUM = 1;
     MAX = 2;
+	MIN = 3;
   }
   optional EltwiseOp operation = 1 [default = SUM]; // element-wise operation
   repeated float coeff = 2; // blob-wise coefficient for SUM operation
@@ -924,6 +925,7 @@ message PoolingParameter {
     MAX = 0;
     AVE = 1;
     STOCHASTIC = 2;
+	MIN = 3;
   }
   optional PoolMethod pool = 1 [default = MAX]; // The pooling method
   // Pad, kernel size, and stride are all given as a single value for equal
@@ -1029,6 +1031,7 @@ message ReLUParameter {
     CUDNN = 2;
   }
   optional Engine engine = 2 [default = DEFAULT];
+  optional bool reversed = 3 [default = false];
 }
 
 message ReshapeParameter {
