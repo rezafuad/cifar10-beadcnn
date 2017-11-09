@@ -1,0 +1,200 @@
+name: "Karpathy-Baseline"
+
+layer {
+    name: "data"
+    type: "Data"
+    top: "data"
+    top: "label"
+    include {
+        phase: TRAIN
+    }
+    transform_param {
+        mirror: true
+        crop_size: 32
+        mean_value: 128
+    }
+    data_param {
+    source: "data-cifar10/cifar-10-batches-py/train"
+    batch_size: 128
+    backend: LMDB
+    }
+}
+layer {
+    name: "data"
+    type: "Data"
+    top: "data"
+    top: "label"
+    include {
+        phase: TEST
+    }
+    transform_param {
+        mirror: false
+        mean_value: 128		
+    }
+    data_param {
+    source: "data-cifar10/cifar-10-batches-py/test"
+    batch_size: 100
+    backend: LMDB
+    }
+}
+
+
+layer {
+	name: "conv1"
+	type: "Convolution"
+	bottom: "data"
+	top: "conv1"
+	convolution_param {
+		num_output: 16
+		kernel_size: 5
+		pad: 2
+		stride: 1
+		weight_filler { 
+			type: "uniform" 
+			min: 0.0
+			max: 0.1154700538379251529
+		} 
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+layer {
+	name: "relu1"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}
+layer {
+	name: "pool1"
+	type: "Pooling"
+	bottom: "conv1"
+	top: "pool1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	}
+}
+
+
+
+
+
+
+
+layer {
+	name: "conv2"
+	type: "Convolution"
+	bottom: "pool1"
+	top: "conv2"
+	convolution_param {
+		num_output: 20
+		kernel_size: 5
+		pad: 2
+		stride: 1
+		weight_filler {
+			type: "uniform"
+			min: 0.0
+			max: 0.05
+		} 
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+layer {
+	name: "relu2"
+	type: "ReLU"
+	bottom: "conv2"
+	top: "conv2"
+}
+layer {
+	name: "pool2"
+	type: "Pooling"
+	bottom: "conv2"
+	top: "pool2"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	}
+}
+
+
+layer {
+	name: "conv3"
+	type: "Convolution"
+	bottom: "pool2"
+	top: "conv3"
+	convolution_param {
+		num_output: 20
+		kernel_size: 5
+		pad: 2
+		stride: 1
+		weight_filler { 
+			type: "uniform"
+			min: 0.0
+			max: 0.04472135954999579393
+		} 
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+layer {
+	name: "relu3"
+	type: "ReLU"
+	bottom: "conv3"
+	top: "conv3"
+}
+layer {
+	name: "pool3"
+	type: "Pooling"
+	bottom: "conv3"
+	top: "pool3"
+	pooling_param {
+		pool: MAX
+		kernel_size: 2
+		stride: 2
+	}
+}
+
+
+
+layer {
+	name: "fc4"
+	type: "InnerProduct"
+	bottom: "pool3"
+	top: "fc4"
+  	inner_product_param {
+    	num_output: 10
+		weight_filler { 
+			type: "uniform"
+			min: 0.0
+			max: 0.3162277660168379332
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+  	}
+}
+
+layer {
+  name: "accuracy"
+  type: "Accuracy"
+  bottom: "fc4"
+  bottom: "label"
+  top: "accuracy"
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "fc4"
+  bottom: "label"
+  top: "loss"
+}
